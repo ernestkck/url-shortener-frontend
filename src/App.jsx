@@ -8,6 +8,7 @@ function App() {
   const [shortUrl, setShortUrl] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [copyButtonText, setCopyButtonText] = useState('Copy');
 
   // Form Submission Handler
   const handleSubmit = async (event) => {
@@ -42,6 +43,23 @@ function App() {
       setLoading(false);
     }
   };
+
+  // Copy to Clipboard Handler
+  const handleCopy = async() => {
+    if (!shortUrl) {
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(shortUrl);
+      setCopyButtonText('Copied!');
+      setTimeout(() => {
+        setCopyButtonText('Copy');
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy URL: ', err);
+      setErrorMessage('Failed to copy URL to clipboard.');
+    }
+  }
 
   return (
     <div className="App">
@@ -86,14 +104,11 @@ function App() {
             <p>Short URL created!</p>
             <a href={shortUrl} target="_blank" rel="noopener noreferrer">{shortUrl}</a>
             <button
-              onClick={() => {
-                navigator.clipboard.writeText(shortUrl)
-                  .then(() => alert('URL copied to clipboard!'))
-                  .catch(err => console.error('Failed to copy URL: ', err));
-              }}
+              onClick={handleCopy}
               style={{ marginLeft: '10px', padding: '5px 10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
+              disabled={copyButtonText === 'Copied!'}
             >
-              Copy
+              {copyButtonText}
             </button>
           </div>
         )}
