@@ -114,7 +114,7 @@ function App() {
         )}
       </div>
       <footer style={{ marginTop: '20px', fontSize: '12px', color: '#555' }}>
-        <p>Made by Ernest Kwan</p>
+        URL Shortener v1.0.0 • <a href="https://github.com/ernestkck/url-shortener" target="_blank" rel="noopener noreferrer">View on GitHub</a>
       </footer>
     </div>
   );
